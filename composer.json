@@ -1,0 +1,18 @@
+{
+  "name": "xltxlm/thrift",
+  "description": "apache thrift 0.9.3 扣出来的php代码",
+  "authors": [
+    {
+      "name": "xltxlm",
+      "email": "xltxlm@qq.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0"
+  },
+  "autoload": {
+    "psr-0": {
+      "Thrift": "lib/"
+    }
+  }
+}
