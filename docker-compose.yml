@@ -1,0 +1,11 @@
+version: '3'
+services:
+
+  php:
+    image: registry.cn-hangzhou.aliyuncs.com/xialintai/phpnginx
+    volumes:
+      - ./:/var/www/html/
+      - ./:/opt/logs/
+    ports:
+      - "80:80"
+    restart: always

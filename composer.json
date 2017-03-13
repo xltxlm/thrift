@@ -14,5 +14,11 @@
     "psr-0": {
       "Thrift": "lib/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "shared\\": "tests/ThriftClient/shared/",
+      "tutorial\\": "tests/ThriftClient/tutorial/"
+    }
   }
 }
