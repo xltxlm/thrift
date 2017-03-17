@@ -57,12 +57,9 @@ try {
 
     //参数可以传递整个对象
     $work = new Work();
-//    $work->op = Operation::DIVIDE;
-//    $work->num1 = 10;
-//    $work->num2 = 0;
-    $work->setOp(Operation::DIVIDE)
-        ->setNum1(10)
-        ->setNum2(0);
+    $work->op = Operation::DIVIDE;
+    $work->num1 = 10;
+    $work->num2 = 0;
 
     try {
         $client->calculate(1, $work);

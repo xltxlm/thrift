@@ -12,8 +12,8 @@ $GEN_DIR = realpath(__DIR__.'/../tests/ThriftServer');
 
 $loader = new ThriftClassLoader();
 $loader->registerNamespace('Thrift', __DIR__.'/../lib');
-$loader->registerDefinition('shared', $GEN_DIR);
-$loader->registerDefinition('tutorial', $GEN_DIR);
+$loader->registerDefinition('sharednew', $GEN_DIR);
+$loader->registerDefinition('tutorialnew', $GEN_DIR);
 $loader->register();
 
 /*
@@ -50,8 +50,10 @@ if (php_sapi_name() == 'cli') {
 use Thrift\Protocol\TBinaryProtocol;
 use Thrift\Transport\TPhpStream;
 use Thrift\Transport\TBufferedTransport;
+use tutorialnew\CalculatorIf;
 
-class CalculatorHandler implements \tutorial\CalculatorIf
+//class CalculatorHandler implements \tutorialnew\CalculatorIf
+class CalculatorHandler implements CalculatorIf
 {
     protected $log = array();
 
@@ -66,22 +68,22 @@ class CalculatorHandler implements \tutorial\CalculatorIf
     }
 
 
-    public function calculate($logid, \tutorial\Work $w)
+    public function calculate($logid, \tutorialnew\Work $w)
     {
         error_log("calculate({$logid}, {{$w->op}, {$w->num1}, {$w->num2}})");
         switch ($w->op) {
-            case \tutorial\Operation::ADD:
+            case \tutorialnew\Operation::ADD:
                 $val = $w->num1 + $w->num2;
                 break;
-            case \tutorial\Operation::SUBTRACT:
+            case \tutorialnew\Operation::SUBTRACT:
                 $val = $w->num1 - $w->num2;
                 break;
-            case \tutorial\Operation::MULTIPLY:
+            case \tutorialnew\Operation::MULTIPLY:
                 $val = $w->num1 * $w->num2;
                 break;
-            case \tutorial\Operation::DIVIDE:
+            case \tutorialnew\Operation::DIVIDE:
                 if ($w->num2 == 0) {
-                    $io = new \tutorial\InvalidOperation();
+                    $io = new \tutorialnew\InvalidOperation();
                     $io->whatOp = $w->op;
                     $io->why = "Cannot divide by 0";
                     throw $io;
@@ -89,13 +91,13 @@ class CalculatorHandler implements \tutorial\CalculatorIf
                 $val = $w->num1 / $w->num2;
                 break;
             default:
-                $io = new \tutorial\InvalidOperation();
+                $io = new \tutorialnew\InvalidOperation();
                 $io->whatOp = $w->op;
                 $io->why = "Invalid Operation";
                 throw $io;
         }
 
-        $log = new \shared\SharedStruct();
+        $log = new \sharednew\SharedStruct();
         $log->key = $logid;
         $log->value = (string)$val;
         $this->log[$logid] = $log;
@@ -113,7 +115,7 @@ class CalculatorHandler implements \tutorial\CalculatorIf
         error_log("------------>");
         error_log(var_export($this->log, true));
         error_log("<------------");
-        return new \shared\SharedStruct(array("key" => $key, "value" => "PHP is stateless!"));
+        return new \sharednew\SharedStruct(array("key" => $key, "value" => "PHP is stateless!"));
     }
 
     public function zip()
@@ -127,7 +129,7 @@ class CalculatorHandler implements \tutorial\CalculatorIf
 
 header('Content-Type', 'application/x-thrift');
 $handler = new CalculatorHandler();
-$processor = new \tutorial\CalculatorProcessor($handler);
+$processor = new \tutorialnew\CalculatorProcessor($handler);
 
 $transport = new TBufferedTransport(new TPhpStream(TPhpStream::MODE_R | TPhpStream::MODE_W));
 $protocol = new TBinaryProtocol($transport, true, true);
