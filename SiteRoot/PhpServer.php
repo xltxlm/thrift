@@ -8,6 +8,7 @@ require_once __DIR__.'/../lib/Thrift/ClassLoader/ThriftClassLoader.php';
 
 use Thrift\ClassLoader\ThriftClassLoader;
 
+
 $GEN_DIR = realpath(__DIR__.'/../tests/ThriftServer');
 
 $loader = new ThriftClassLoader();

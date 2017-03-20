@@ -1,6 +1,6 @@
 {
   "name": "xltxlm/thrift",
-  "description": "apache thrift 0.9.3 扣出来的php代码",
+  "description": "apache thrift 0.10.0 扣出来的php代码,包含代码生成工具",
   "authors": [
     {
       "name": "xltxlm",
@@ -8,17 +8,27 @@
     }
   ],
   "require": {
-    "php": ">=7.0"
+    "php": ">=7.0",
+    "xltxlm/helper": "*"
   },
   "autoload": {
     "psr-0": {
       "Thrift": "lib/"
+    },
+    "psr-4": {
+      "xltxlm\\thrift\\": [
+        "./",
+        "./src"
+      ]
     }
   },
   "autoload-dev": {
     "psr-4": {
       "shared\\": "tests/ThriftClient/shared/",
-      "tutorial\\": "tests/ThriftClient/tutorial/"
+      "tutorial\\": "tests/ThriftClient/tutorial/",
+      "sharednew\\": "tests/ThriftClient/sharednew/",
+      "tutorialnew\\": "tests/ThriftClient/tutorialnew/",
+      "": "./"
     }
   }
 }
