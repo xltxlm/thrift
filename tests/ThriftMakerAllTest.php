@@ -11,14 +11,14 @@ namespace xltxlm\thrift\tests;
 
 use PHPUnit\Framework\TestCase;
 use xltxlm\thrift\App\Base;
-use xltxlm\thrift\ThriftClientMakerAll;
+use xltxlm\thrift\ThriftMakerAll;
 
-class ThriftClientMakerAllTest extends TestCase
+class ThriftMakerAllTest extends TestCase
 {
 
     public function test()
     {
-        (new ThriftClientMakerAll(Base::class))
+        (new ThriftMakerAll(Base::class))
             ->__invoke();
     }
 }

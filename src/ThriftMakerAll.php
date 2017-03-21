@@ -17,7 +17,7 @@ use xltxlm\helper\Hclass\ClassNameFromFile;
  * Class ThriftClientMakerAll
  * @package xltxlm\thrift
  */
-class ThriftClientMakerAll
+class ThriftMakerAll
 {
     use LoadClassRegister;
 
