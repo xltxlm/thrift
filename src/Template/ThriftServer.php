@@ -9,6 +9,11 @@ use <?=strtr($this->getReflectionClass()->getName(),['Client'=>""])?>Processor;
 use Thrift\Transport\TPhpStream;
 use Thrift\Protocol\TBinaryProtocol;
 use xltxlm\helper\Ctroller\Unit\RunInvoke;
+<?php
+array_walk($this->getParameter(),function ($item, $key){
+    echo "use $item;\n";
+})
+?>
 
 class <?=ucfirst(strtr($this->getReflectionClass()->getShortName(),['Client'=>""])).ucfirst($this->getMethodName()->getName())?>
 
@@ -18,10 +23,11 @@ class <?=ucfirst(strtr($this->getReflectionClass()->getShortName(),['Client'=>""
     <?php
     $Parameter = $this->getParameter();
     array_walk($Parameter,function (&$item, $key){
-        $item = $item.' $'.ucfirst($key);
+        $item = array_pop(explode("\\",$item)).' $'.ucfirst($key);
     })?>
+
     /**
-    * @return <?=$this->getReturn()?>
+     * @return <?=$this->getReturn()?>
 
     */
     public function <?=$this->getMethodName()->getName()?>(<?=join(',',$Parameter)?>)

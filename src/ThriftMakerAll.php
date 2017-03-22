@@ -34,9 +34,10 @@ class ThriftMakerAll
             }
             chdir($rootDir);
             //生成客户端
-            echo shell_exec("thrift -out ../  -r   --gen php:psr4   ".$item->getFilename());
+            $cmd = "/usr/local/bin/thrift -out ../  -r   --gen php:psr4   ".$item->getFilename();
+            echo shell_exec($cmd);
             //生成服务端
-            echo shell_exec("thrift -out ../  -r   --gen php:server   ".$item->getFilename());
+            echo shell_exec("/usr/local/bin/thrift -out ../  -r   --gen php:server   ".$item->getFilename());
         }
 
         $Directory = new \RecursiveDirectoryIterator($rootDir);
