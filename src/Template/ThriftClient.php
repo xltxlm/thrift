@@ -1,7 +1,7 @@
 <?php /** @var \xltxlm\thrift\ThriftClientMaker $this */ ?>
 <<?='?'?>php
 
-namespace <?=$this->getReflectionClass()->getNamespaceName()?>;
+namespace <?=$this->getReflectionClass()->getNamespaceName()?>\Client;
 
 use Thrift\Protocol\TBinaryProtocol;
 use Thrift\Transport\TSocket;
@@ -11,7 +11,10 @@ use Thrift\Exception\TException;
 use \xltxlm\thrift\Config\ThriftConfig;
 use <?=$this->getReflectionClass()->getName()?>;
 
-class <?=$this->getReflectionClass()->getShortName().ucfirst($this->getMethodName()->getName())?>
+/**
+* Thrift 客户端实现
+*/
+class <?=ucfirst($this->getMethodName()->getName())?>
 
 {
     /** @var TBinaryProtocol */
@@ -19,26 +22,28 @@ class <?=$this->getReflectionClass()->getShortName().ucfirst($this->getMethodNam
     /** @var <?=$this->getReflectionClass()->getShortName()?> */
     protected $client;
 
-<?php foreach ($this->getParameter() as $name=>$type) {?>
-    /** @var <?=$type?> */
-    protected $<?=$name?>;
+<?php foreach ($this->getParameter() as $name=>$type) {
+    $typename=ucfirst(basename(strtr('/'.$type,['\\'=>'/'])));
+    ?>
+    /** @var <?=$type?>Model */
+    protected $<?=$typename?>Model;
 
     /**
-     * @return <?=$type?>
+     * @return <?=$type?>Model
      */
-    public function get<?=ucfirst($name)?>()
+    public function get<?=$typename?>Model()
     {
-        return $this-><?=$name?>;
+        return $this-><?=$typename?>Model;
     }
 
     /**
-     * @param <?=$type?> $<?=$name?>
+     * @param <?=$type?>Model $<?=$typename?>
 
-     * @return <?=$this->getReflectionClass()->getShortName().$this->getMethodName()->getName()?>
+     * @return $this
      */
-    public function set<?=ucfirst($name)?>($<?=$name?>)
+    public function set<?=$typename?>Model($<?=$typename?>)
     {
-        $this-><?=$name?> = $<?=$name?>;
+        $this-><?=$typename?>Model = $<?=$typename?>;
         return $this;
     }
 <?php } ?>
@@ -68,7 +73,8 @@ class <?=$this->getReflectionClass()->getShortName().ucfirst($this->getMethodNam
         <?php
         $Parameter = $this->getParameter();
         array_walk($Parameter,function (&$item, $key){
-            $item = '$this->get'.ucfirst($key).'()';
+            $typename=ucfirst(basename(strtr('/'.$item,['\\'=>'/'])));
+            $item = '$this->get'.$typename.'Model()->__toArray()';
         })?>
         return call_user_func_array( [$this->client,'<?=$this->getMethodName()->getName()?>'], [<?=join(',',array_values($Parameter))?>]);
     }

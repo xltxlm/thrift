@@ -3,9 +3,12 @@
 
 namespace <?=$this->getReflectionClass()->getNamespaceName()?>;
 
+use xltxlm\helper\Hclass\ObjectToArray;
+
 class  <?=$this->getReflectionClass()->getShortName()?>Model extends <?=$this->getReflectionClass()->getShortName()?>
 
 {
+    use ObjectToArray;
 
 <?php foreach ($this->getProperties() as $name=>$type) {?>
     /** @var <?=$type?> */

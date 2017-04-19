@@ -25,6 +25,7 @@ class ThriftMakerAll
     public function __invoke()
     {
         $rootDir = realpath(dirname(static::$rootDir).'/Thrift');
+        $dirname = dirname('/'.strtr(static::$rootNamespce, ['\\' => '/']));
         //查找网站的根目录
         $Directory = new \RecursiveDirectoryIterator($rootDir);
         $Iterator = new \RecursiveIteratorIterator($Directory);
@@ -42,7 +43,7 @@ class ThriftMakerAll
             //生成服务端
             echo shell_exec("thrift -out /tmp/thrift/  -r   --gen php:server   ".$item->getFilename());
             (new DirTemplate)
-                ->setFromDir('/tmp/thrift/')
+                ->setFromDir("/tmp/thrift/$dirname/")
                 ->setToDir(dirname($rootDir))
                 ->__invoke();
         }

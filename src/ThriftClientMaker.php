@@ -10,6 +10,7 @@ namespace xltxlm\thrift;
 
 use Composer\Autoload\ClassLoader;
 use xltxlm\helper\Ctroller\LoadClassRegister;
+use xltxlm\helper\Hdir\file_put_contents;
 
 
 /**
@@ -20,6 +21,7 @@ use xltxlm\helper\Ctroller\LoadClassRegister;
 final class ThriftClientMaker
 {
     use LoadClassRegister;
+    use file_put_contents;
 
     /** @var string 需要处理的客户端代码 */
     protected $className = "";
@@ -161,24 +163,19 @@ final class ThriftClientMaker
             $filename = $dir.ucfirst(strtr($this->getReflectionClass()->getShortName(), ['Client' => ""])).ucfirst($method->getName()).".php";
             $this->file_put_contents($filename, __DIR__.'/Template/ThriftServer.php');
 
-            $filename = dirname($this->getReflectionClass()->getFileName()).'/'.$this->getReflectionClass()->getShortName().ucfirst($method->getName()).".php";
+            //Hprose
+            $Hprose = dirname($this->getReflectionClass()->getFileName()).'/Hprose/';
+            mkdir($Hprose);
+            $filename = $Hprose.ucfirst($method->getName()).".php";
+            $this->file_put_contents($filename, __DIR__.'/Template/HproseClient.php');
+
+            //thrift
+            $ClientDir = dirname($this->getReflectionClass()->getFileName()).'/Client/';
+            mkdir($ClientDir);
+
+            $filename = $ClientDir.ucfirst($method->getName()).".php";
             $this->file_put_contents($filename, __DIR__.'/Template/ThriftClient.php');
 
-        }
-    }
-
-    /**
-     * @param $classRealFile
-     * @param $templatePath
-     */
-    private function file_put_contents($classRealFile, $templatePath, $orverWrite = true)
-    {
-        ob_start();
-        eval('include $templatePath;');
-        $ob_get_clean = ob_get_clean();
-        //1:先保证控制层的基准类一定存在
-        if (!is_file($classRealFile) || ( file_get_contents($classRealFile) !== $ob_get_clean && $orverWrite)) {
-            file_put_contents($classRealFile, $ob_get_clean);
         }
     }
 
