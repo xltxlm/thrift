@@ -83,9 +83,22 @@ class ThriftModelMaker
             $this->Properties[$Propertie->getName()] = $PropertieOut[1];
         }
 
-        ob_start();
-        include __DIR__.'/Template/ThriftModel.php';
         $filename = dirname($this->getReflectionClass()->getFileName()).'/'.$this->getReflectionClass()->getShortName()."Model.php";
-        file_put_contents($filename, ob_get_clean());
+        $this->file_put_contents($filename, __DIR__.'/Template/ThriftModel.php');
+    }
+
+    /**
+     * @param $classRealFile
+     * @param $templatePath
+     */
+    private function file_put_contents($classRealFile, $templatePath, $orverWrite = true)
+    {
+        ob_start();
+        eval('include $templatePath;');
+        $ob_get_clean = ob_get_clean();
+        //1:先保证控制层的基准类一定存在
+        if (!is_file($classRealFile) || (file_get_contents($classRealFile) !== $ob_get_clean && $orverWrite)) {
+            file_put_contents($classRealFile, $ob_get_clean);
+        }
     }
 }

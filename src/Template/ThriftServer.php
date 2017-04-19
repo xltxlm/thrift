@@ -14,7 +14,9 @@ array_walk($this->getParameter(),function ($item, $key){
     echo "use $item;\n";
 })
 ?>
-
+/**
+* 服务端代码实现
+*/
 class <?=ucfirst(strtr($this->getReflectionClass()->getShortName(),['Client'=>""])).ucfirst($this->getMethodName()->getName())?>
 
 {

@@ -19,7 +19,8 @@
       "xltxlm\\thrift\\": [
         "./",
         "./src"
-      ]
+      ],
+      "Thrift\\": "./"
     }
   },
   "autoload-dev": {

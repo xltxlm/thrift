@@ -155,35 +155,31 @@ final class ThriftClientMaker
             $this->setMethodName($method);
 
             //生成服务端代码
-            $rootDir = realpath(dirname(dirname(dirname((new \ReflectionClass(ClassLoader::class))->getFileName()))));
+            $rootDir = realpath(dirname(static::$rootDir));
             mkdir($dir = $rootDir.'/App/');
             mkdir($dir = $dir.strtr($this->getReflectionClass()->getShortName(), ["Client" => ""]).'/');
             $filename = $dir.ucfirst(strtr($this->getReflectionClass()->getShortName(), ['Client' => ""])).ucfirst($method->getName()).".php";
             $this->file_put_contents($filename, __DIR__.'/Template/ThriftServer.php');
 
             $filename = dirname($this->getReflectionClass()->getFileName()).'/'.$this->getReflectionClass()->getShortName().ucfirst($method->getName()).".php";
-            $this->file_put_contents($filename, __DIR__.'/Template/ThriftClient.php', true);
+            $this->file_put_contents($filename, __DIR__.'/Template/ThriftClient.php');
 
         }
     }
 
     /**
-     * 同时写2份文件.临时文件的实时更新
      * @param $classRealFile
      * @param $templatePath
      */
-    private function file_put_contents($classRealFile, $templatePath, $orverWrite = false)
+    private function file_put_contents($classRealFile, $templatePath, $orverWrite = true)
     {
         ob_start();
         eval('include $templatePath;');
         $ob_get_clean = ob_get_clean();
         //1:先保证控制层的基准类一定存在
-        if (!is_file($classRealFile) || $orverWrite) {
+        if (!is_file($classRealFile) || ( file_get_contents($classRealFile) !== $ob_get_clean && $orverWrite)) {
             file_put_contents($classRealFile, $ob_get_clean);
         }
-        $dir = dirname($classRealFile).'/temp/';
-        mkdir($dir);
-        file_put_contents($dir.basename($classRealFile), $ob_get_clean);
     }
 
 }

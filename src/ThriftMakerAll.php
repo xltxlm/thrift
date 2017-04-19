@@ -11,6 +11,7 @@ namespace xltxlm\thrift;
 use Composer\Autoload\ClassLoader;
 use xltxlm\helper\Ctroller\LoadClassRegister;
 use xltxlm\helper\Hclass\ClassNameFromFile;
+use xltxlm\helper\Hdir\DirTemplate;
 
 /**
  * 根据 thrift 文件,一套全部做下来
@@ -23,7 +24,7 @@ class ThriftMakerAll
 
     public function __invoke()
     {
-        $rootDir = realpath(dirname(dirname(dirname((new \ReflectionClass(ClassLoader::class))->getFileName()))).'/Thrift');
+        $rootDir = realpath(dirname(static::$rootDir).'/Thrift');
         //查找网站的根目录
         $Directory = new \RecursiveDirectoryIterator($rootDir);
         $Iterator = new \RecursiveIteratorIterator($Directory);
@@ -33,11 +34,17 @@ class ThriftMakerAll
                 continue;
             }
             chdir($rootDir);
+            shell_exec("rm -rf /tmp/thrift/");
+            shell_exec("mkdir -p /tmp/thrift/");
             //生成客户端
-            $cmd = "thrift -out ../  -r   --gen php:psr4   ".$item->getFilename();
+            $cmd = "thrift -out /tmp/thrift/  -r   --gen php:psr4   ".$item->getFilename();
             echo shell_exec($cmd);
             //生成服务端
-            echo shell_exec("thrift -out ../  -r   --gen php:server   ".$item->getFilename());
+            echo shell_exec("thrift -out /tmp/thrift/  -r   --gen php:server   ".$item->getFilename());
+            (new DirTemplate)
+                ->setFromDir('/tmp/thrift/')
+                ->setToDir(dirname($rootDir))
+                ->__invoke();
         }
 
         $Directory = new \RecursiveDirectoryIterator($rootDir);
