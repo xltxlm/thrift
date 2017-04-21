@@ -25,6 +25,9 @@ class ThriftMakerAll
     public function __invoke()
     {
         $rootDir = realpath(dirname(static::$rootDir).'/Thrift');
+        if (!is_dir($rootDir)) {
+            return;
+        }
         $dirname = dirname('/'.strtr(static::$rootNamespce, ['\\' => '/']));
         //查找网站的根目录
         $Directory = new \RecursiveDirectoryIterator($rootDir);
