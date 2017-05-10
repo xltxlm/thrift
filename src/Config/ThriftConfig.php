@@ -19,12 +19,32 @@ abstract class ThriftConfig
     const HTTP = 'http';
     const SOCKET = 'socket';
 
-    /** @var string 服务端的ip地址 */
+    /** @var string 服务端的登录地址 */
+    protected $hosturl = "127.0.0.1";
+    /** @var string 服务端的接口ip地址 */
     protected $host = "127.0.0.1";
     /** @var int 服务端提供的端口 */
     protected $port = 80;
     /** @var string 类型 */
     protected $type = self::HTTP;
+
+    /**
+     * @return string
+     */
+    public function getHosturl(): string
+    {
+        return $this->hosturl;
+    }
+
+    /**
+     * @param string $hosturl
+     * @return ThriftConfig
+     */
+    public function setHosturl(string $hosturl): ThriftConfig
+    {
+        $this->hosturl = $hosturl;
+        return $this;
+    }
 
     /**
      * @return string
