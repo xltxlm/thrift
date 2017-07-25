@@ -17,6 +17,7 @@ abstract class ThriftConfig
 {
     //服务器类型定义
     const HTTP = 'http';
+    const HTTPS = 'https';
     const SOCKET = 'socket';
 
     /** @var string 服务端的登录地址 */
