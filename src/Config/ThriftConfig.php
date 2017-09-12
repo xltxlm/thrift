@@ -26,6 +26,8 @@ abstract class ThriftConfig
     protected $host = "127.0.0.1";
     /** @var int 服务端提供的端口 */
     protected $port = 80;
+    /** @var int 服务端提供的端口 */
+    protected $httpsport = 443;
     /** @var string 类型 */
     protected $type = self::HTTP;
 
@@ -70,7 +72,11 @@ abstract class ThriftConfig
      */
     public function getPort(): int
     {
-        return $this->port;
+        if ($this->getType() == self::HTTPS) {
+            return $this->httpsport;
+        } else {
+            return $this->port;
+        }
     }
 
     /**
