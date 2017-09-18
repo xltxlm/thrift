@@ -13,7 +13,7 @@ namespace xltxlm\thrift\Config;
  * Class ThriftConfig
  * @package xltxlm\thrift\Config
  */
-abstract class ThriftConfig
+class ThriftConfig
 {
     //服务器类型定义
     const HTTP = 'http';
