@@ -32,6 +32,25 @@ class ThriftConfig
     protected $type = self::HTTP;
 
     /**
+     * @return int
+     */
+    public function getHttpsport(): int
+    {
+        return $this->httpsport;
+    }
+
+    /**
+     * @param int $httpsport
+     * @return ThriftConfig
+     */
+    public function setHttpsport(int $httpsport): ThriftConfig
+    {
+        $this->httpsport = $httpsport;
+        return $this;
+    }
+
+
+    /**
      * @return string
      */
     public function getHosturl(): string
