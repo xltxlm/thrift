@@ -18,10 +18,9 @@ class ThriftConfig
     //服务器类型定义
     const HTTP = 'http';
     const HTTPS = 'https';
-    const SOCKET = 'socket';
 
     /** @var string 服务端的登录地址 */
-    protected $hosturl = "127.0.0.1";
+    protected $hosturl = "localhost";
     /** @var string 服务端的接口ip地址 */
     protected $host = "127.0.0.1";
     /** @var int 服务端提供的端口 */
@@ -29,14 +28,14 @@ class ThriftConfig
     /** @var int 服务端提供的端口 */
     protected $httpsport = 443;
     /** @var string 类型 */
-    protected $type = self::HTTP;
+    protected $type = self::HTTPS;
 
     /**
      * @return int
      */
     public function getHttpsport(): int
     {
-        return $this->httpsport;
+        return $this->port;
     }
 
     /**
@@ -60,9 +59,9 @@ class ThriftConfig
 
     /**
      * @param string $hosturl
-     * @return ThriftConfig
+     * @return $this
      */
-    public function setHosturl(string $hosturl): ThriftConfig
+    public function setHosturl(string $hosturl)
     {
         $this->hosturl = $hosturl;
         return $this;
@@ -91,11 +90,7 @@ class ThriftConfig
      */
     public function getPort(): int
     {
-        if ($this->getType() == self::HTTPS) {
-            return $this->httpsport;
-        } else {
-            return $this->port;
-        }
+        return $this->port;
     }
 
     /**
@@ -120,9 +115,11 @@ class ThriftConfig
      * @param string $type
      * @return static
      */
-    public function setType(string $type)
+    public function setType($type)
     {
-        $this->type = $type;
+        if ($type) {
+            $this->type = $type;
+        }
         return $this;
     }
 
